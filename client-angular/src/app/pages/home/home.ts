@@ -4,7 +4,7 @@ import { EventService } from '../../services/event';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
