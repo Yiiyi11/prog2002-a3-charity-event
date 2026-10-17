@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [],
   selector: 'app-nav',
-  styleUrl: './nav.css',
+  imports: [RouterLink],
   templateUrl: './nav.html',
+  styleUrl: './nav.css'
 })
-export class Nav {}
+export class NavComponent { }

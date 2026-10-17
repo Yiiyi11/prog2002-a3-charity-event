@@ -1,1 +1,10 @@
-<p>event-detail works!</p>
+<div *ngIf="event">
+  <h2>{{event.event_name}}</h2>
+  <p>{{event.description}}</p>
+  <h3>Weather: {{weatherText}}</h3>
+  <h3>Registrations:</h3>
+  <div *ngFor="let r of registrations">
+    <p>{{r.contact_fullname}} | {{r.contact_email}} | Tickets:{{r.ticket_quantity}}</p>
+  </div>
+  <a [routerLink]="['/register']" [queryParams]="{eventId:event.event_id}">Register Now</a>
+</div>

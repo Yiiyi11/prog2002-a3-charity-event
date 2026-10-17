@@ -1,1 +1,8 @@
-<p>register-event works!</p>
+<form [formGroup]="regForm" (ngSubmit)="submit()">
+  <input type="text" formControlName="contact_fullname" placeholder="Full Name">
+  <input type="email" formControlName="contact_email" placeholder="Email">
+  <input type="text" formControlName="contact_phone" placeholder="Phone">
+  <input type="number" formControlName="ticket_quantity" min="1">
+  <button type="submit" [disabled]="regForm.invalid">Submit Registration</button>
+</form>
+<p>{{msg}}</p>
