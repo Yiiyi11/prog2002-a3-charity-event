@@ -1,6 +1,7 @@
 <main style="padding:15px;">
   <h1>Search Charity Events</h1>
-  <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+  <!-- ✅ 重点：加 [formGroup]="searchForm" -->
+  <div [formGroup]="searchForm">
     <div>
       <label>Event Date:</label>
       <input type="date" formControlName="date">
@@ -18,13 +19,14 @@
         }
       </select>
     </div>
-    <button type="submit">Search</button>
+    <button type="button" (click)="onSearch()">Search</button>
     <button type="button" (click)="clearFilters()">Clear Filters</button>
-  </form>
+  </div>
   <hr>
   @if(errorMsg){
     <div style="color:red; font-weight:bold;">{{ errorMsg }}</div>
   }
+
   @for(item of results; track item.event_id){
     <div class="event-card">
       <h4>{{ item.event_name }}</h4>

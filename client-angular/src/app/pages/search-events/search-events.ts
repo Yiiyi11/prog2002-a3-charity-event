@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { EventService } from '../../services/event';
-
 @Component({
   selector: 'app-search-events',
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './search-events.html',
 })
@@ -14,7 +14,6 @@ export class SearchEventsComponent implements OnInit {
   categories: any[] = [];
   results: any[] = [];
   errorMsg = '';
-
   constructor(private fb: FormBuilder, private eventSvc: EventService) {
     this.searchForm = this.fb.group({
       date: [''],
@@ -22,17 +21,15 @@ export class SearchEventsComponent implements OnInit {
       category_id: ['']
     });
   }
-
   ngOnInit(): void {
     this.loadCategories();
   }
-
   loadCategories(): void {
     this.eventSvc.getCategories().subscribe({
       next: (res: any) => {
-        if(res.success){
+        if (res.success) {
           this.categories = res.data ?? [];
-        }else{
+        } else {
           this.categories = [];
         }
       },
@@ -42,17 +39,20 @@ export class SearchEventsComponent implements OnInit {
       }
     });
   }
-
   onSearch(): void {
+    console.log("=== 点击Search ===");
     this.errorMsg = '';
-    this.results = [];
     const f = this.searchForm.value;
-    this.eventSvc.searchEvents({
-      date: f.date || undefined,
-      location: f.location?.trim() || undefined,
-      category_id: f.category_id || undefined
-    }).subscribe({
+    console.log("表单原始值：", f);
+    // 构造参数，category_id转数字
+    const params: any = {};
+    if (f.date) params.date = f.date;
+    if (f.location) params.location = f.location.trim();
+    if (f.category_id) params.category_id = Number(f.category_id);
+    console.log("传给后端参数：", params);
+    this.eventSvc.searchEvents(params).subscribe({
       next: (res: any) => {
+        console.log("后端完整返回：", res);
         if (!res.success) {
           this.errorMsg = res.message ?? 'Search failed';
           this.results = [];
@@ -63,16 +63,15 @@ export class SearchEventsComponent implements OnInit {
           this.results = [];
           return;
         }
-        // ✅ 强制取data，兜底为空数组，永远不会赋值对象
-        this.results = Array.isArray(res.data) ? res.data : [];
+        this.results = [...res.data];
+        console.log("渲染用的results数组：", this.results);
       },
       error: (err: any) => {
+        console.error("请求报错：", err);
         this.errorMsg = `Search error: ${err.error?.message || err.message}`;
-        this.results = [];
       }
     });
   }
-
   clearFilters(): void {
     this.searchForm.reset({ date: '', location: '', category_id: '' });
     this.results = [];
