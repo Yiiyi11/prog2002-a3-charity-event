@@ -1,10 +1,22 @@
-<div *ngIf="event">
-  <h2>{{event.event_name}}</h2>
-  <p>{{event.description}}</p>
-  <h3>Weather: {{weatherText}}</h3>
-  <h3>Registrations:</h3>
-  <div *ngFor="let r of registrations">
-    <p>{{r.contact_fullname}} | {{r.contact_email}} | Tickets:{{r.ticket_quantity}}</p>
-  </div>
-  <a [routerLink]="['/register']" [queryParams]="{eventId:event.event_id}">Register Now</a>
-</div>
+<main>
+  @if(errorMsg){
+    <div style="color:red; font-weight:bold;">{{ errorMsg }}</div>
+  }
+
+  @if(event){
+    <div class="detail-box">
+      <h1>{{ event.event_name }}</h1>
+      <p><strong>Date:</strong> {{ event.event_datetime }}</p>
+      <p><strong>Location:</strong> {{ event.location }}</p>
+      <p><strong>Price:</strong> ${{ event.price }}</p>
+      <p><strong>Target:</strong> ${{ event.target_fund }}</p>
+      <p><strong>Raised:</strong> ${{ event.raised_fund }}</p>
+      <hr>
+      <p>{{ event.description }}</p>
+      <br>
+      <a [routerLink]="['/register']" [queryParams]="{eventId: event.event_id}">
+        <button>Register</button>
+      </a>
+    </div>
+  }
+</main>

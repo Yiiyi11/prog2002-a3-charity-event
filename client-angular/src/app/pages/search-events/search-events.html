@@ -1,0 +1,36 @@
+<main style="padding:15px;">
+  <h1>Search Charity Events</h1>
+  <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+    <div>
+      <label>Event Date:</label>
+      <input type="date" formControlName="date">
+    </div>
+    <div>
+      <label>Location:</label>
+      <input type="text" formControlName="location" placeholder="Input location name">
+    </div>
+    <div>
+      <label>Event Category:</label>
+      <select formControlName="category_id">
+        <option value="">--- Any Category ---</option>
+        @for(cat of categories; track cat.category_id){
+          <option [value]="cat.category_id">{{ cat.category_name }}</option>
+        }
+      </select>
+    </div>
+    <button type="submit">Search</button>
+    <button type="button" (click)="clearFilters()">Clear Filters</button>
+  </form>
+  <hr>
+  @if(errorMsg){
+    <div style="color:red; font-weight:bold;">{{ errorMsg }}</div>
+  }
+  @for(item of results; track item.event_id){
+    <div class="event-card">
+      <h4>{{ item.event_name }}</h4>
+      <p>Category ID: {{ item.category_id }}</p>
+      <p>Location: {{ item.location }}</p>
+      <a [routerLink]="['/events', item.event_id]">View Detail</a>
+    </div>
+  }
+</main>

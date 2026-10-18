@@ -1,1 +1,35 @@
-<p>home works!</p>
+<h1>Charity Events</h1>
+@if(isLoading){
+  <p>Loading events...</p>
+}
+@if(errorMsg) {
+  <div style="color:red">{{errorMsg}}</div>
+}
+@if(!isLoading && !errorMsg) {
+  @for(item of eventList; track item.event_id) {
+    <div class="event-card">
+      <div class="event-img" style="width:240px;height:160px;overflow:hidden;border-radius:6px;">
+        @if(item.event_image_url) {
+          <img 
+            [src]="item.event_image_url" 
+            alt="Event image"
+            style="width:100%;height:100%;object-fit:cover;display:block;"
+          >
+        }
+      </div>
+      <div class="event-content">
+        <h3>{{item.event_name}}</h3>
+        <p>Location: {{item.location}}</p>
+        <p>Date: {{item.event_date}}</p>
+        <p>
+          @if(isUpcoming(item.event_date)){
+            <strong>Upcoming</strong>
+          } @else {
+            <strong>Past Event</strong>
+          }
+        </p>
+        <button [routerLink]="['/events', item.event_id]">View Detail</button>
+      </div>
+    </div>
+  }
+}

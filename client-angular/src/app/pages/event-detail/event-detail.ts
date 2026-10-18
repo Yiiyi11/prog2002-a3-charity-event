@@ -11,16 +11,25 @@ import { EventService } from '../../services/event';
 })
 export class EventDetailComponent implements OnInit {
   event: any;
-  weatherText = '';
   registrations: any[] = [];
+  errorMsg = '';
 
-  constructor(private route: ActivatedRoute, private eventService: EventService) {}
+  constructor(private route: ActivatedRoute, private eventSvc: EventService) {}
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.eventService.getEvent(id).subscribe((res: any) => {
-      this.event = res;
-      this.weatherText = 'Sunny, perfect for outdoor activities';
+    this.eventSvc.getEvent(id).subscribe({
+      next: (res: any) => {
+        if (!res.success) {
+          this.errorMsg = res.message;
+          return;
+        }
+        this.event = res.data.event;
+        this.registrations = res.data.registrations || [];
+      },
+      error: (err: any) => {
+        this.errorMsg = `Failed to load event: ${err.message}`;
+      }
     });
   }
 }

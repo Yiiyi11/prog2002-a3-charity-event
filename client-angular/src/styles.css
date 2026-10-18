@@ -1,1 +1,230 @@
-/* You can add global styles to this file, and also import other style files */
+/* style.css — Global style for all 3 pages */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+body{
+    background-color:#f7f9fa;
+    color:#2d3436;
+}
+nav {
+    background-color:#273c75;
+    padding:1.2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+nav a{
+    color:white;
+    margin-right:24px;
+    text-decoration:none;
+    font-size:17px;
+    font-weight:500;
+}
+nav a:hover{
+    text-decoration: underline;
+}
+main{
+    max-width:900px;
+    margin: 0 auto;
+    padding:24px 16px;
+}
+.org-intro{
+    background:#ffffff;
+    padding:20px;
+    border-radius:8px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom:24px;
+}
+.org-intro h1{
+    color:#273c75;
+    margin-bottom:8px;
+}
+.org-intro h3{
+    font-weight:normal;
+    color:#485460;
+    margin-bottom:8px;
+}
+.event-card {
+    background:#ffffff;
+    border-radius:10px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.07);
+    padding:18px;
+    margin:14px 0px;
+    display:flex;
+    gap:18px;
+}
+.event-card-img{
+    width:160px;
+    height:120px;
+    object-fit:cover;
+    border-radius:6px;
+    flex-shrink:0;
+    background:#dee2e6;
+}
+.event-card-content{
+    flex-grow:1;
+}
+.event-card h3{
+    color:#273c75;
+    margin-bottom:6px;
+}
+.event-card p{
+    margin:4px 0;
+    line-height:1.5;
+}
+.event-card a{
+    display:inline-block;
+    margin-top:8px;
+    background-color:#273c75;
+    color:white;
+    padding:7px 14px;
+    border-radius:4px;
+    text-decoration:none;
+}
+.event-card a:hover{
+    background-color:#192a56;
+}
+#error-msg{
+    color:#d63031;
+    font-weight:bold;
+    margin-top:12px;
+}
+.tag-upcoming{
+    color:#00b894;
+    font-weight:bold;
+}
+.tag-past{
+    color:#e17055;
+    font-weight:bold;
+}
+
+/* Search Page */
+.search-panel{
+    background:white;
+    padding:22px;
+    border-radius:8px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom:20px;
+}
+.search-panel h1{
+    color:#273c75;
+    margin-bottom:18px;
+}
+.form-row{
+    margin-bottom:14px;
+}
+label{
+    display:block;
+    margin-bottom:4px;
+    font-weight:500;
+}
+input, select{
+    width:100%;
+    padding:9px;
+    border:1px solid #b2bec3;
+    border-radius:4px;
+    font-size:15px;
+}
+.btn-group{
+    display:flex;
+    gap:12px;
+    margin-top:18px;
+}
+button{
+    padding:9px 18px;
+    border:none;
+    border-radius:4px;
+    font-size:15px;
+    cursor:pointer;
+}
+#searchForm button[type="submit"]{
+    background-color:#273c75;
+    color:white;
+}
+#btnClear{
+    background-color:#636e72;
+    color:white;
+}
+.validation-error{
+    color:#d63031;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+#errorMsg{
+    color:#d63031;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+/* Event‑detail page */
+.detail-box{
+    background:white;
+    padding:24px;
+    border-radius:10px;
+    box-shadow:0 3px 12px rgba(0,0,0,0.08);
+}
+.detail-img{
+    width:100%;
+    max-height:320px;
+    object-fit:cover;
+    border-radius:8px;
+    margin-bottom:16px;
+    background:#dee2e6;
+}
+.detail-box h1{
+    color:#273c75;
+    margin-bottom:12px;
+}
+.detail-box p{
+    line-height:1.6;
+    margin:6px 0;
+}
+hr{
+    margin:18px 0;
+    border-color:#eee;
+}
+#registerBtn{
+    margin-top:10px;
+    padding:10px 20px;
+    background-color:#273c75;
+    color:white;
+    border:none;
+    border-radius:5px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+/* Custom Modal (register popup) */
+.modal-overlay{
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color: rgba(0,0,0,0.65);
+    display:none;
+    z-index:999;
+}
+.modal-box{
+    background:white;
+    width:420px;
+    padding:28px;
+    border-radius:8px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+}
+.modal-box p{
+    font-size:16px;
+}
+.modal-close-btn{
+    margin-top:20px;
+    padding:8px 16px;
+    background-color:#273c75;
+    color:white;
+    border:none;
+    border-radius:4px;
+    cursor:pointer;
+}
