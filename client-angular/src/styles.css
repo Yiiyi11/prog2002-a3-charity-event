@@ -98,7 +98,6 @@ main{
     color:#e17055;
     font-weight:bold;
 }
-
 /* Search Page */
 .search-panel{
     background:white;
@@ -156,7 +155,6 @@ button{
     font-weight:bold;
     margin-top:10px;
 }
-
 /* Event‑detail page */
 .detail-box{
     background:white;
@@ -194,7 +192,6 @@ hr{
     font-size:16px;
     cursor:pointer;
 }
-
 /* Custom Modal (register popup) */
 .modal-overlay{
     position: fixed;
@@ -205,16 +202,19 @@ hr{
     background-color: rgba(0,0,0,0.65);
     display:none;
     z-index:999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 .modal-box{
     background:white;
     width:420px;
+    max-width:90%;
     padding:28px;
     border-radius:8px;
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
+}
+.modal-box input{
+    margin:8px 0 14px;
 }
 .modal-box p{
     font-size:16px;
