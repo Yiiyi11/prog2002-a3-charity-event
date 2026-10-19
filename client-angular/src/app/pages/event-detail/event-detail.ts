@@ -115,12 +115,12 @@ export class EventDetailComponent implements OnInit {
     this.http.get<{success:boolean, data:any}>(`http://localhost:3000/api/events/${id}`)
     .subscribe(res=>{
       if(res.success){
-        // ✅【本次唯一修改】增加兜底 || []，防止返回null/undefined
-        this.registrations = res.data.registrations || [];
+        this.registrations = res.data.registrations;
         this.cdr.markForCheck();
       }
     })
   }
+
   // 天气代码转文字描述（给html页面调用）
   getWeatherText(code: number): string {
     if (!code) return 'Unknown';
