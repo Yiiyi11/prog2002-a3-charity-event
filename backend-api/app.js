@@ -14,7 +14,6 @@ const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 app.use(cors());
 app.use(express.json());
-
 app.get('/api/events', async (req, res) => {
   try {
     const [rows] = await pool.query("SELECT * FROM events");
@@ -24,7 +23,6 @@ app.get('/api/events', async (req, res) => {
     res.json({success:false, message:"fetch events error"});
   }
 });
-
 // ====== 获取所有分类接口 ======
 app.get('/api/categories', async (req, res) => {
   try {
@@ -35,7 +33,6 @@ app.get('/api/categories', async (req, res) => {
     res.json({success:false, message:"Failed to load categories"});
   }
 });
-
 // ====== 单个活动详情接口 ======
 app.get('/api/events/:event_id', async (req, res) => {
   try {
@@ -58,8 +55,7 @@ app.get('/api/events/:event_id', async (req, res) => {
     return res.json({ success: false, message: "Database error" });
   }
 });
-
-// ====== 活动搜索筛选接口（移到listen前面！！）======
+// ====== 活动搜索筛选接口 ======
 app.get('/api/search-events', async (req, res) => {
   try {
     const { date, location, category_id } = req.query;
@@ -88,6 +84,33 @@ app.get('/api/search-events', async (req, res) => {
     res.json({ success: false, message: "Search failed" });
   }
 });
+
+// ====================== 新增：天气代理接口 ======================
+app.get('/api/weather', async (req, res) => {
+  try {
+    const lat = parseFloat(req.query.lat);
+    const lng = parseFloat(req.query.lng);
+
+    if (isNaN(lat) || isNaN(lng)) {
+      return res.json({ error: "No coordinates" });
+    }
+
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current_weather=true`;
+    const resp = await fetch(url);
+    const apiData = await resp.json();
+
+    res.json({
+      temp: apiData.current_weather.temperature,
+      weatherCode: apiData.current_weather.weathercode
+    });
+
+  } catch (err) {
+    console.error("Weather API error:", err);
+    res.status(500).json({ error: "Failed to get weather" });
+  }
+});
+
+// ==============================================================
 
 // ========== POST注册接口 ==========
 app.post('/api/register', async (req, res) => {
@@ -122,7 +145,6 @@ app.post('/api/register', async (req, res) => {
     return res.json({ success: false, message: "Database error" });
   }
 });
-
 // listen 必须放在【最后一行】
 app.listen(PORT, () => {
   console.log(`API running on http://localhost:${PORT}`);

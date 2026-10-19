@@ -15,11 +15,13 @@ export class EventDetailComponent implements OnInit {
   errorMsg = '';
   showRegisterModal = false;
   showSuccessPopup = false;
-  showErrorPopup = false; // 新增：自定义错误弹窗
-  popupErrorMessage = ''; // 存放错误文字
-
+  showErrorPopup = false;
+  popupErrorMessage = '';
   registerName = '';
   registerEmail = '';
+  // ========= 新增天气变量 =========
+  weatherData: any = null;
+  weatherError = '';
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
@@ -39,6 +41,10 @@ export class EventDetailComponent implements OnInit {
         this.event = res.data.event;
         this.registrations = res.data.registrations || [];
         console.log('赋值后的event:', this.event);
+        // ✅ 使用 latitude longitude 加载天气
+        if(this.event?.latitude != null && this.event?.longitude != null){
+          this.loadWeather(this.event.latitude, this.event.longitude);
+        }
         this.cdr.markForCheck();
       },
       error: (err: unknown) => {
@@ -46,6 +52,23 @@ export class EventDetailComponent implements OnInit {
         this.errorMsg = `Failed to load event`;
       }
     });
+  }
+  // ========== 新增加载天气方法 (改成lat,lng参数) ==========
+  loadWeather(lat: number, lng: number) {
+    this.http.get<any>(`http://localhost:3000/api/weather`, {
+      params: { lat, lng }
+    }).subscribe({
+      next: (weatherRes) => {
+        this.weatherData = weatherRes;
+        this.weatherError = '';
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.weatherData = null;
+        this.weatherError = 'Cannot load weather data';
+        this.cdr.markForCheck();
+      }
+    })
   }
   openRegisterModal(){
     this.showRegisterModal = true;
@@ -76,7 +99,6 @@ export class EventDetailComponent implements OnInit {
           this.showSuccessPopup = true;
           this.refreshRegistrations();
         }else{
-          // 不使用alert，改用自定义弹窗
           this.popupErrorMessage = res.message ?? "Registration failed";
           this.showErrorPopup = true;
         }
@@ -97,5 +119,20 @@ export class EventDetailComponent implements OnInit {
         this.cdr.markForCheck();
       }
     })
+  }
+
+  // 天气代码转文字描述（给html页面调用）
+  getWeatherText(code: number): string {
+    if (!code) return 'Unknown';
+    if (code === 0) return 'Clear sky';
+    if (code >=1 && code <=3) return 'Partly cloudy';
+    if (code >=45 && code <=48) return 'Foggy';
+    if (code >=51 && code <=57) return 'Drizzle';
+    if (code >=61 && code <=67) return 'Rain';
+    if (code >=71 && code <=77) return 'Snow';
+    if (code >=80 && code <=82) return 'Rain showers';
+    if (code >=85 && code <=86) return 'Snow showers';
+    if (code >=95) return 'Thunderstorm';
+    return 'Unknown weather';
   }
 }

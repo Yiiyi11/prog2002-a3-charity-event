@@ -13,4 +13,14 @@ export class EventService {
   searchEvents(params: any) {
     return this.http.get<any>(`${this.apiUrl}/search-events`, { params });
   }
+
+  getEventById(id: number) {
+    return this.http.get<any>(`${this.apiUrl}/events/${id}`);
+  }
+
+  getWeather(location: string) {
+    return this.http.get<any>(`${this.apiUrl}/weather`, {
+      params: { location }
+    });
+  }
 }
