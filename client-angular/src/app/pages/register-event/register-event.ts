@@ -14,8 +14,10 @@ export class RegisterEventComponent {
 
   constructor(private fb: FormBuilder, private regSvc: RegistrationService) {
     this.regForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      contact_fullname: ['', Validators.required],
+      contact_email: ['', [Validators.required, Validators.email]],
+      contact_phone: ['', Validators.required],
+      ticket_quantity: [1, [Validators.required, Validators.min(1)]],
       eventId: [null, Validators.required]
     });
   }
